@@ -8,6 +8,7 @@ const (
 	MessageAnnounce             = "ANNOUNCE"
 	MessageAnnounceCancel       = "ANNOUNCE_CANCEL"
 	MessageUnannounce           = "UNANNOUNCE"
+	MessageUnsubscribe          = "UNSUBSCRIBE"
 	MessageTrackStatusRequest   = "TRACK_STATUS_REQUEST"
 	MessageTrackStatus          = "TRACK_STATUS"
 	MessageGoAway               = "GO_AWAY"
