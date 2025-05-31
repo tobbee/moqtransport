@@ -1,4 +1,4 @@
-module github.com/mengelbart/moqtransport
+module github.com/tobbee/moqtransport
 
 go 1.23.6
 

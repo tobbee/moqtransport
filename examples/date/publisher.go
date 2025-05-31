@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/mengelbart/moqtransport"
+	"github.com/tobbee/moqtransport"
 )
 
 type publisher struct {

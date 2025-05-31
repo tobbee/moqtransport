@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mengelbart/moqtransport"
-	"github.com/mengelbart/moqtransport/quicmoq"
+	"github.com/tobbee/moqtransport"
+	"github.com/tobbee/moqtransport/quicmoq"
 	"github.com/quic-go/quic-go"
 	"github.com/stretchr/testify/assert"
 )

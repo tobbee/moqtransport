@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mengelbart/moqtransport"
+	"github.com/tobbee/moqtransport"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

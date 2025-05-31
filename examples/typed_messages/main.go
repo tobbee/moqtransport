@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/mengelbart/moqtransport"
+	"github.com/tobbee/moqtransport"
 )
 
 // ExampleTypedHandler demonstrates using the new typed message handling pattern

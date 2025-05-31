@@ -8,7 +8,7 @@ import (
 	"slices"
 	"sync/atomic"
 
-	"github.com/mengelbart/moqtransport/internal/wire"
+	"github.com/tobbee/moqtransport/internal/wire"
 )
 
 var (

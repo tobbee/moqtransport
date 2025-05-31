@@ -5,8 +5,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/mengelbart/moqtransport/internal/slices"
-	"github.com/mengelbart/moqtransport/internal/wire"
+	"github.com/tobbee/moqtransport/internal/slices"
+	"github.com/tobbee/moqtransport/internal/wire"
 	"github.com/mengelbart/qlog"
 	"github.com/mengelbart/qlog/moqt"
 )

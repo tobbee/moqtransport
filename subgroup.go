@@ -1,7 +1,7 @@
 package moqtransport
 
 import (
-	"github.com/mengelbart/moqtransport/internal/wire"
+	"github.com/tobbee/moqtransport/internal/wire"
 	"github.com/mengelbart/qlog"
 	"github.com/mengelbart/qlog/moqt"
 )

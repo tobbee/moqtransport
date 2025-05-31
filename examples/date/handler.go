@@ -12,9 +12,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mengelbart/moqtransport"
-	"github.com/mengelbart/moqtransport/quicmoq"
-	"github.com/mengelbart/moqtransport/webtransportmoq"
+	"github.com/tobbee/moqtransport"
+	"github.com/tobbee/moqtransport/quicmoq"
+	"github.com/tobbee/moqtransport/webtransportmoq"
 	"github.com/mengelbart/qlog"
 	"github.com/mengelbart/qlog/moqt"
 	"github.com/quic-go/quic-go"

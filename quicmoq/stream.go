@@ -1,6 +1,6 @@
 package quicmoq
 
-import "github.com/mengelbart/moqtransport"
+import "github.com/tobbee/moqtransport"
 
 var _ moqtransport.Stream = (*Stream)(nil)
 
