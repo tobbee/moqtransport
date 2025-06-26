@@ -17,9 +17,17 @@ func newFetchStream(stream SendStream, requestID uint64, qlogger *qlog.Logger) (
 	}
 	buf := make([]byte, 0, 24)
 	buf = fhm.Append(buf)
-	_, err := stream.Write(buf)
+	n, err := stream.Write(buf)
 	if err != nil {
 		return nil, err
+	}
+	for n < len(buf) {
+		var nn int
+		nn, err = stream.Write(buf[n:])
+		if err != nil {
+			return nil, err
+		}
+		n += nn
 	}
 	if qlogger != nil {
 		qlogger.Log(moqt.StreamTypeSetEvent{
@@ -49,9 +57,17 @@ func (f *FetchStream) WriteObject(
 		ObjectPayload:     payload,
 	}
 	buf = fo.AppendFetch(buf)
-	_, err := f.stream.Write(buf)
+	n, err := f.stream.Write(buf)
 	if err != nil {
 		return 0, err
+	}
+	for n < len(buf) {
+		var nn int
+		nn, err = f.stream.Write(buf[n:])
+		if err != nil {
+			return n, err
+		}
+		n += nn
 	}
 	if f.qlogger != nil {
 		f.qlogger.Log(moqt.FetchObjectEvent{

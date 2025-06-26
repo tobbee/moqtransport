@@ -23,9 +23,17 @@ func newSubgroup(stream SendStream, trackAlias, groupID, subgroupID uint64, publ
 	}
 	buf := make([]byte, 0, 40)
 	buf = shgm.Append(buf)
-	_, err := stream.Write(buf)
+	n, err := stream.Write(buf)
 	if err != nil {
 		return nil, err
+	}
+	for n < len(buf) {
+		var nn int
+		nn, err = stream.Write(buf[n:])
+		if err != nil {
+			return nil, err
+		}
+		n += nn
 	}
 	if qlogger != nil {
 		qlogger.Log(moqt.StreamTypeSetEvent{
@@ -54,9 +62,17 @@ func (s *Subgroup) WriteObject(objectID uint64, payload []byte) (int, error) {
 		ObjectPayload: payload,
 	}
 	buf = o.AppendSubgroup(buf)
-	_, err := s.stream.Write(buf)
+	n, err := s.stream.Write(buf)
 	if err != nil {
 		return 0, err
+	}
+	for n < len(buf) {
+		var nn int
+		nn, err = s.stream.Write(buf[n:])
+		if err != nil {
+			return n, err
+		}
+		n += nn
 	}
 	if s.qlogger != nil {
 		gid := new(uint64)
