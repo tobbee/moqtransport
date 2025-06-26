@@ -74,7 +74,7 @@ func TestFetch(t *testing.T) {
 
 		fs, err := publisher.FetchStream()
 		assert.NoError(t, err)
-		n, err := fs.WriteObject(1, 2, 3, 0, []byte("hello fetch"))
+		n, err := fs.WriteObject(context.Background(), 1, 2, 3, 0, []byte("hello fetch"))
 		assert.NoError(t, err)
 		assert.Equal(t, 11, n)
 		assert.NoError(t, fs.Close())

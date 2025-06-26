@@ -220,7 +220,7 @@ func (h *moqHandler) setupDateTrack() {
 				delete(h.publishers, p)
 				continue
 			}
-			if _, err := sg.WriteObject(0, []byte(fmt.Sprintf("%v", ts))); err != nil {
+			if _, err := sg.WriteObject(context.Background(), 0, []byte(fmt.Sprintf("%v", ts))); err != nil {
 				log.Printf("failed to write time to subgroup: %v", err)
 			}
 			sg.Close()

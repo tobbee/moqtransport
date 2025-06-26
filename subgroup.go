@@ -1,6 +1,9 @@
 package moqtransport
 
 import (
+	"context"
+	"time"
+
 	"github.com/mengelbart/moqtransport/internal/wire"
 	"github.com/mengelbart/qlog"
 	"github.com/mengelbart/qlog/moqt"
@@ -14,7 +17,7 @@ type Subgroup struct {
 	subgroupID uint64
 }
 
-func newSubgroup(stream SendStream, trackAlias, groupID, subgroupID uint64, publisherPriority uint8, qlogger *qlog.Logger) (*Subgroup, error) {
+func newSubgroup(ctx context.Context, stream SendStream, trackAlias, groupID, subgroupID uint64, publisherPriority uint8, qlogger *qlog.Logger) (*Subgroup, error) {
 	shgm := &wire.SubgroupHeaderMessage{
 		TrackAlias:        trackAlias,
 		GroupID:           groupID,
@@ -23,6 +26,10 @@ func newSubgroup(stream SendStream, trackAlias, groupID, subgroupID uint64, publ
 	}
 	buf := make([]byte, 0, 40)
 	buf = shgm.Append(buf)
+	if deadline, ok := ctx.Deadline(); ok {
+		stream.SetWriteDeadline(deadline)
+		defer stream.SetWriteDeadline(time.Time{})
+	}
 	n, err := stream.Write(buf)
 	if err != nil {
 		return nil, err
@@ -50,7 +57,11 @@ func newSubgroup(stream SendStream, trackAlias, groupID, subgroupID uint64, publ
 	}, nil
 }
 
-func (s *Subgroup) WriteObject(objectID uint64, payload []byte) (int, error) {
+func (s *Subgroup) WriteObject(ctx context.Context, objectID uint64, payload []byte) (int, error) {
+	if deadline, ok := ctx.Deadline(); ok {
+		s.stream.SetWriteDeadline(deadline)
+		defer s.stream.SetWriteDeadline(time.Time{})
+	}
 	var buf []byte
 	if len(payload) > 0 {
 		buf = make([]byte, 0, 16+len(payload))

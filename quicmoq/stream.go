@@ -1,12 +1,20 @@
 package quicmoq
 
-import "github.com/mengelbart/moqtransport"
+import (
+	"time"
+
+	"github.com/mengelbart/moqtransport"
+)
 
 var _ moqtransport.Stream = (*Stream)(nil)
 
 type Stream struct {
 	send    *SendStream
 	receive *ReceiveStream
+}
+
+func (s *Stream) SetWriteDeadline(t time.Time) error {
+	return s.send.SetWriteDeadline(t)
 }
 
 // Read implements moqtransport.Stream.

@@ -63,7 +63,7 @@ func (p *localTrack) getFetchStream() (*FetchStream, error) {
 	if err != nil {
 		return nil, err
 	}
-	p.fetchStream, err = newFetchStream(stream, p.requestID, p.qlogger)
+	p.fetchStream, err = newFetchStream(p.ctx, stream, p.requestID, p.qlogger)
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +129,7 @@ func (p *localTrack) openSubgroup(groupID, subgroupID uint64, priority uint8) (*
 		return nil, err
 	}
 	p.subgroupCount++
-	return newSubgroup(stream, p.trackAlias, groupID, subgroupID, priority, p.qlogger)
+	return newSubgroup(p.ctx, stream, p.trackAlias, groupID, subgroupID, priority, p.qlogger)
 }
 
 func (s *localTrack) close(code uint64, reason string) error {

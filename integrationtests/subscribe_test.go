@@ -94,7 +94,7 @@ func TestSubscribe(t *testing.T) {
 
 		sg, err := publisher.OpenSubgroup(1, 0, 0)
 		assert.NoError(t, err)
-		n, err := sg.WriteObject(0, []byte("hello again"))
+		n, err := sg.WriteObject(context.Background(), 0, []byte("hello again"))
 		assert.NoError(t, err)
 		assert.Equal(t, 11, n)
 		assert.NoError(t, sg.Close())

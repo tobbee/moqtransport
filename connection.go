@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"time"
 )
 
 // Protocol is a transport protocol supported by MoQ.
@@ -50,6 +51,7 @@ func (p Perspective) String() string {
 type Stream interface {
 	ReceiveStream
 	SendStream
+	SetWriteDeadline(time.Time) error
 }
 
 // A Stream is the interface implemented by the receiving end of unidirectional
@@ -73,6 +75,8 @@ type SendStream interface {
 	// Close closes the stream and guarantees retransmissions until all data has
 	// been received by the receiver or the stream is reset.
 	io.WriteCloser
+
+	SetWriteDeadline(time.Time) error
 
 	// Reset closes the stream and stops retransmitting outstanding data.
 	Reset(uint32)

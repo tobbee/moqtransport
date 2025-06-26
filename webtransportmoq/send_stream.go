@@ -1,6 +1,8 @@
 package webtransportmoq
 
 import (
+	"time"
+
 	"github.com/mengelbart/moqtransport"
 	"github.com/quic-go/webtransport-go"
 )
@@ -9,6 +11,10 @@ var _ moqtransport.SendStream = (*SendStream)(nil)
 
 type SendStream struct {
 	stream webtransport.SendStream
+}
+
+func (s *SendStream) SetWriteDeadline(t time.Time) error {
+	return s.stream.SetWriteDeadline(t)
 }
 
 // Write implements moqtransport.SendStream.

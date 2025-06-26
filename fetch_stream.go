@@ -1,6 +1,9 @@
 package moqtransport
 
 import (
+	"context"
+	"time"
+
 	"github.com/mengelbart/moqtransport/internal/wire"
 	"github.com/mengelbart/qlog"
 	"github.com/mengelbart/qlog/moqt"
@@ -11,12 +14,16 @@ type FetchStream struct {
 	qlogger *qlog.Logger
 }
 
-func newFetchStream(stream SendStream, requestID uint64, qlogger *qlog.Logger) (*FetchStream, error) {
+func newFetchStream(ctx context.Context, stream SendStream, requestID uint64, qlogger *qlog.Logger) (*FetchStream, error) {
 	fhm := &wire.FetchHeaderMessage{
 		RequestID: requestID,
 	}
 	buf := make([]byte, 0, 24)
 	buf = fhm.Append(buf)
+	if deadline, ok := ctx.Deadline(); ok {
+		stream.SetWriteDeadline(deadline)
+		defer stream.SetWriteDeadline(time.Time{})
+	}
 	n, err := stream.Write(buf)
 	if err != nil {
 		return nil, err
@@ -43,10 +50,15 @@ func newFetchStream(stream SendStream, requestID uint64, qlogger *qlog.Logger) (
 }
 
 func (f *FetchStream) WriteObject(
+	ctx context.Context,
 	groupID, subgroupID, objectID uint64,
 	priority uint8,
 	payload []byte,
 ) (int, error) {
+	if deadline, ok := ctx.Deadline(); ok {
+		f.stream.SetWriteDeadline(deadline)
+		defer f.stream.SetWriteDeadline(time.Time{})
+	}
 	buf := make([]byte, 0, 1400)
 	fo := wire.ObjectMessage{
 		GroupID:           groupID,
